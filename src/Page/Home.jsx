@@ -2,10 +2,11 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import CardVoting from "../components/CardVoting";
 
 const Home = () => {
   return (
-    <div className="home mt-15">
+    <div className="home mt-15 p-12 flex flex-col">
       <nav>
         <Navbar />
       </nav>
@@ -30,6 +31,17 @@ const Home = () => {
               },
             }}
           />
+        </div>
+      </section>
+      <section>
+        <div className="card-box flex flex-wrap gap-10 justify-center">
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
         </div>
       </section>
     </div>
