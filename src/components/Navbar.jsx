@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router";
 
-const Navbar = () => {
+const Navbar = ({ setIsOpen }) => {
   return (
     <div className="navbar fixed top-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-200 text-white w-full z-10">
       <div className="navigation flex">
@@ -19,7 +19,11 @@ const Navbar = () => {
       </div>
 
       <div className="wallet">
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsOpen(true)}
+        >
           Connet Wallet
         </Button>
       </div>
