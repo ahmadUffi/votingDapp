@@ -50,7 +50,7 @@ const Home = () => {
           <CardVoting /> */}
         </div>
       </section>
-      <CreateProfile isOpen={isOpen} />
+      <CreateProfile isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

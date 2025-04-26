@@ -9,9 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import React from "react";
+import React, { useState } from "react";
+import { connectMetaMask } from "../utils/metamask";
 
-const CreateProfile = ({ isOpen }) => {
+const CreateProfile = ({ isOpen, setIsOpen }) => {
+  const [error, setError] = useState(null);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -22,6 +25,24 @@ const CreateProfile = ({ isOpen }) => {
     p: 4,
     borderRadius: "10px",
   };
+
+  const connectWalletHandler = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const account = await connectMetaMask();
+      console.log("Connected account:", account);
+    } catch (err) {
+      setError(err.message);
+      console.error(err);
+    }
+  };
+
+  const cencelHandler = () => {
+    setIsOpen(false);
+    setError(null);
+  };
+
   return (
     <div>
       <Modal
@@ -33,21 +54,27 @@ const CreateProfile = ({ isOpen }) => {
           <Typography variant="h5" className="mb-10 font-bold underline">
             Create Porfile
           </Typography>
-          <FormControl
+          <form
             className="flex flex-col gap-5 mt-10"
-            onSubmit={() => console.log("submit")}
+            onSubmit={connectWalletHandler}
           >
-            <TextField id="outlined-text-input" label="Username" type="text" />
+            <TextField
+              id="outlined-text-input"
+              label="Username"
+              type="text"
+              required
+            />
             <TextField
               id="outlined-text-input"
               label="Deskripsi"
               type="text"
-              // style={{ width: "clamp(200px, 400px, 800px)" }}
               className="w-[250px] md:w-[400px] lg:w-[450px]"
+              required
             />
             <TextField
               type="file"
               id="img-file"
+              required
               slotProps={{
                 input: {
                   endAdornment: (
@@ -62,18 +89,18 @@ const CreateProfile = ({ isOpen }) => {
               }}
             />
             <div className="button flex justify-around mt-3">
-              <Button type="button" variant="contained">
+              <Button type="submit" variant="contained">
                 <Typography variant="p" className="font-bold">
-                  Create and Connect
+                  Connect Wallet
                 </Typography>
               </Button>
-              <Button color="error" variant="contained">
+              <Button color="error" variant="contained" onClick={cencelHandler}>
                 <Typography variant="p" className="font-bold">
-                  Cencel
+                  Cancel
                 </Typography>
               </Button>
             </div>
-          </FormControl>
+          </form>
         </Box>
       </Modal>
     </div>
