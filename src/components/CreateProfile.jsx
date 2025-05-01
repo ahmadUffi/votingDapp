@@ -54,10 +54,7 @@ const CreateProfile = ({ isOpen, setIsOpen }) => {
           <Typography variant="h5" className="mb-10 font-bold underline">
             Create Porfile
           </Typography>
-          <form
-            className="flex flex-col gap-5 mt-10"
-            onSubmit={connectWalletHandler}
-          >
+          <form className="flex flex-col gap-5" onSubmit={connectWalletHandler}>
             <TextField
               id="outlined-text-input"
               label="Username"
@@ -71,23 +68,7 @@ const CreateProfile = ({ isOpen, setIsOpen }) => {
               className="w-[250px] md:w-[400px] lg:w-[450px]"
               required
             />
-            <TextField
-              type="file"
-              id="img-file"
-              required
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment
-                      position="end"
-                      style={{ cursor: "pointer" }}
-                    >
-                      <DriveFolderUploadIcon />
-                    </InputAdornment>
-                  ),
-                },
-              }}
-            />
+
             <div className="button flex justify-around mt-3">
               <Button type="submit" variant="contained">
                 <Typography variant="p" className="font-bold">

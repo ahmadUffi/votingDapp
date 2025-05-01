@@ -6,7 +6,7 @@ export async function connectMetaMask() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    return accounts[0]; // Return the first connected account
+    return accounts[0];
   } catch {
     throw new Error("User rejected the request or connection failed");
   }

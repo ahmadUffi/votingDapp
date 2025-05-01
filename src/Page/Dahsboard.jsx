@@ -1,17 +1,18 @@
-import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { InputAdornment, TextField, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CardVoting from "../components/CardVoting";
 import CreateProfile from "../components/CreateProfile";
 
-const Dashboard = ({ setIsOpen, open, account }) => {
+const Dashboard = ({ setIsOpen, isOpen, account }) => {
   return (
     <div>
       <nav>
         <Navbar setIsOpen={setIsOpen} />
       </nav>
-
+      <div className="">
+        <CreateProfile isOpen={isOpen} setIsOpen={setIsOpen} />
+      </div>
       {!account ? (
         <div className="inform flex justify-center items-center h-[100dvh]">
           <Typography

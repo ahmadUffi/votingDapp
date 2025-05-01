@@ -5,9 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CardVoting from "../components/CardVoting";
 import CreateProfile from "../components/CreateProfile";
 
-const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const Home = ({ isOpen, setIsOpen }) => {
   return (
     <div className="home mt-15 p-12 flex flex-col">
       <nav>
@@ -44,10 +42,11 @@ const Home = () => {
           <CardVoting />
           <CardVoting />
           <CardVoting />
-          {/* <CardVoting />
           <CardVoting />
           <CardVoting />
-          <CardVoting /> */}
+          <CardVoting />
+          <CardVoting />
+          <CardVoting />
         </div>
       </section>
       <CreateProfile isOpen={isOpen} setIsOpen={setIsOpen} />
