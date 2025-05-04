@@ -22,8 +22,16 @@ const CreatePetisi = ({ isOpenPetisi }) => {
     >
       <Box className="w-max p-10 flex flex-col gap-6" sx={style}>
         <form action="" className="w-[320px] h-[400px] flex flex-col gap-5">
-          <FormControl>
+          <FormControl className="flex flex-col gap-5">
             <TextField type="text" required label="Title" fullWidth />
+            <TextField
+              type="text"
+              required
+              label="Description"
+              fullWidth
+              multiline
+              rows={4}
+            />
           </FormControl>
         </form>
       </Box>
