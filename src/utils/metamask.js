@@ -7,7 +7,19 @@ export async function connectMetaMask() {
       method: "eth_requestAccounts",
     });
     return accounts[0];
-  } catch {
-    throw new Error("User rejected the request or connection failed");
+  } catch (error) {
+    if (error.code === 4001) {
+      // User rejected request
+      throw new Error("User rejected the connection request.");
+    } else if (error.message.includes("connect")) {
+      throw new Error(
+        "Failed to connect to MetaMask. Please ensure MetaMask is unlocked and try again."
+      );
+    } else {
+      throw new Error(
+        "An unexpected error occurred while connecting to MetaMask: " +
+          error.message
+      );
+    }
   }
 }

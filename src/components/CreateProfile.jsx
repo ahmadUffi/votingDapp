@@ -12,7 +12,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import React, { useState } from "react";
 import { connectMetaMask } from "../utils/metamask";
 
-const CreateProfile = ({ isOpen, setIsOpen }) => {
+const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
   const [error, setError] = useState(null);
 
   const style = {
@@ -28,6 +28,7 @@ const CreateProfile = ({ isOpen, setIsOpen }) => {
 
   const connectWalletHandler = async (e) => {
     e.preventDefault();
+    console.log("connect wallet");
     setError(null);
     try {
       const account = await connectMetaMask();
@@ -39,14 +40,14 @@ const CreateProfile = ({ isOpen, setIsOpen }) => {
   };
 
   const cencelHandler = () => {
-    setIsOpen(false);
+    setIsOpenProfile(false);
     setError(null);
   };
 
   return (
     <div>
       <Modal
-        open={isOpen}
+        open={isOpenProfile}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
