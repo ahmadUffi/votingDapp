@@ -8,32 +8,17 @@ console.log(
   VITE_SUPABASE_ANON_KEY
 );
 
-// Create a single supabase client for interacting with your database
 const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY);
 
-const createBucket = async () => {
-  const { data, error } = await supabase.storage.createBucket("avatars", {
-    public: false,
-    allowedMimeTypes: ["image/png"],
-    fileSizeLimit: 1024 * 1024, // 1 MB, bukan 1024 bytes
-  });
-
-  if (error) {
-    console.error("Error creating bucket:", error.message);
-  } else {
-    console.log("Bucket created:", data);
-  }
-};
-
-const uploadImage = async (file) => {
+const uploadImage = async (bucket, file, namefile) => {
   console.log("Uploading image:", file);
   console.log("File type:", file.type);
   console.log("File name:", file.name);
 
   try {
     const { data, error } = await supabase.storage
-      .from("imagavote")
-      .upload(`public/avatar2`, file, {
+      .from(`${bucket}`)
+      .upload(`public/${namefile}`, file, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -48,9 +33,9 @@ const uploadImage = async (file) => {
   }
 };
 
-const getImageUrl = (path) => {
+const getImageUrl = (bucket, path) => {
   const { data, error } = supabase.storage
-    .from("imagavote")
+    .from(`${bucket}`)
     .getPublicUrl(`public/${path}`);
   if (error) {
     console.error("Error getting image URL:", error);
@@ -59,4 +44,4 @@ const getImageUrl = (path) => {
   }
 };
 
-export { supabase, createBucket, uploadImage, getImageUrl };
+export { supabase, uploadImage, getImageUrl };
