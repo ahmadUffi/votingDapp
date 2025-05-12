@@ -11,6 +11,12 @@ export async function connectMetaMask() {
     mainContractABI,
     signer
   );
+
+  const profileContract = new ethers.Contract(
+    VITE_CONTRACT_PROFILE_URL,
+    profileContractABI,
+    signer
+  );
   if (typeof window.ethereum === "undefined") {
     throw new Error("MetaMask is not installed");
   }
