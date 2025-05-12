@@ -10,9 +10,18 @@ import {
 } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 
-import React from "react";
+import React, { useState } from "react";
+import Loader from "./Loader";
+import { getImageUrl, uploadImage } from "../utils/supabase";
 
-const CreatePetisi = ({ isOpenPetisi }) => {
+const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [expired, setExpired] = useState("");
+  const [file, setFile] = useState("");
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -24,6 +33,26 @@ const CreatePetisi = ({ isOpenPetisi }) => {
     borderRadius: "10px",
   };
 
+  const handleCratePetisi = async (e) => {
+    try {
+      e.preventDefault();
+      setError(null);
+      setIsLoading(true);
+      await uploadImage("petisi", file, title);
+      const petisiImg = await getImageUrl("petisi", title);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setIsOpenPetisi(false);
+      setTitle("");
+      setDescription("");
+      setExpired("");
+      setFile("");
+      setError(null);
+    }
+  };
+
   return (
     <Modal
       aria-labelledby="modal-modal-title"
@@ -31,21 +60,36 @@ const CreatePetisi = ({ isOpenPetisi }) => {
       open={isOpenPetisi}
     >
       <Box className="w-max p-10 flex flex-col gap-6" sx={style}>
-        <form action="" className="w-[320px] h-[400px] flex flex-col gap-5">
+        <Typography variant="h6">Create Petisi</Typography>
+        <form
+          action=""
+          className="w-[320px] h-[400px] flex flex-col gap-5"
+          onSubmit={handleCratePetisi}
+        >
           <FormControl className="flex flex-col gap-5">
-            <TextField type="text" required label="Title" fullWidth />
+            <TextField
+              type="text"
+              required
+              label="Title"
+              fullWidth
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <TextField
               type="text"
               required
               label="Description"
               fullWidth
               multiline
+              value={description}
               rows={4}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <TextField
-              type="date"
+              type="datetime-local"
               fullWidth
               required
+              value={expired}
               label="expired"
               id="outlined-required"
               slotProps={{
@@ -53,13 +97,16 @@ const CreatePetisi = ({ isOpenPetisi }) => {
                   shrink: true,
                 },
               }}
+              onChange={(e) => setExpired(e.target.value)}
             />
             <TextField
               type="file"
               fullWidth
               required
+              value={file}
               label="File"
               id="outlined-required"
+              onChange={(e) => setFile(e.target.files[0])}
               slotProps={{
                 inputLabel: {
                   shrink: true,
@@ -76,12 +123,20 @@ const CreatePetisi = ({ isOpenPetisi }) => {
           </FormControl>
 
           <div className="button flex justify-around mt-3">
-            <Button type="submit" variant="contained">
-              <Typography variant="p" className="font-bold">
-                Connect Wallet
-              </Typography>
+            <Button type="submit" variant="contained" className="w-[100 px]">
+              {!isLoading ? (
+                <Typography variant="p" className="font-bold">
+                  Create
+                </Typography>
+              ) : (
+                <Loader />
+              )}
             </Button>
-            <Button color="error" variant="contained" onClick="">
+            <Button
+              color="error"
+              variant="contained"
+              onClick={() => setIsOpenPetisi(false)}
+            >
               <Typography variant="p" className="font-bold">
                 Cancel
               </Typography>

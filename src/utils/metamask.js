@@ -1,4 +1,16 @@
+import { ethers } from "ethers";
+import mainContractABI from "../contract/mainContract.json";
+import profileContractABI from "../contract/profileContract.json";
+const { VITE_CONTRACT_PROFILE_URL, VITE_CONTRACT_MAIN_URL } = import.meta.env;
+
 export async function connectMetaMask() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const mainContract = new ethers.Contract(
+    VITE_CONTRACT_MAIN_URL,
+    mainContractABI,
+    signer
+  );
   if (typeof window.ethereum === "undefined") {
     throw new Error("MetaMask is not installed");
   }

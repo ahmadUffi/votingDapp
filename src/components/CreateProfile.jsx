@@ -12,9 +12,11 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import React, { useState } from "react";
 import { connectMetaMask } from "../utils/metamask";
 import { getImageUrl, uploadImage } from "../utils/supabase";
+import Loader from "./Loader";
 
 const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -33,20 +35,28 @@ const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
   const connectWalletHandler = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
     try {
+      const account = await connectMetaMask();
       await uploadImage("profileusers", file, username);
-      // const account = await connectMetaMask();
-      // console.log("Connected account:", account);
       const profileImg = await getImageUrl("profileusers", username);
       console.log("Profile image URL:", profileImg);
     } catch (err) {
       setError(err.message);
       console.error(err);
+    } finally {
+      setIsLoading(false);
+      setIsOpenProfile(false);
     }
   };
 
   const cencelHandler = () => {
     setIsOpenProfile(false);
+    setError(null);
+    setIsLoading(false);
+    setUsername("");
+    setDescription("");
+    setFile(null);
     setError(null);
   };
 
@@ -68,6 +78,7 @@ const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
               label="Username"
               type="text"
               required
+              value={username}
             />
             <TextField
               onChange={(e) => setDescription(e.target.value)}
@@ -76,6 +87,7 @@ const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
               type="text"
               className="w-[250px] md:w-[400px] lg:w-[450px]"
               required
+              value={description}
             />
             <TextField
               onChange={(e) => setFile(e.target.files[0])}
@@ -83,6 +95,7 @@ const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
               fullWidth
               required
               label="File"
+              value={file}
               id="outlined-required"
               slotProps={{
                 inputLabel: {
@@ -99,10 +112,14 @@ const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
             />
 
             <div className="button flex justify-around mt-3">
-              <Button type="submit" variant="contained">
-                <Typography variant="p" className="font-bold">
-                  Connect Wallet
-                </Typography>
+              <Button type="submit" variant="contained" className="w-[190px]">
+                {!isLoading ? (
+                  <Typography variant="p" className="font-bold">
+                    Connect Wallet
+                  </Typography>
+                ) : (
+                  <Loader />
+                )}
               </Button>
               <Button color="error" variant="contained" onClick={cencelHandler}>
                 <Typography variant="p" className="font-bold">
