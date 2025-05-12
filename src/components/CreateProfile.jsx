@@ -10,11 +10,14 @@ import {
 } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import React, { useState } from "react";
-import { connectMetaMask } from "../utils/metamask";
 import { getImageUrl, uploadImage } from "../utils/supabase";
 import Loader from "./Loader";
 
-const CreateProfile = ({ isOpenProfile, setIsOpenProfile }) => {
+const CreateProfile = ({
+  isOpenProfile,
+  setIsOpenProfile,
+  connectMetaMask,
+}) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);

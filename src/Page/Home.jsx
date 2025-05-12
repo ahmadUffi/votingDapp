@@ -11,6 +11,7 @@ const Home = ({
   setIsOpenProfile,
   isOpenPetisi,
   setIsOpenPetisi,
+  connectMetaMask,
 }) => {
   return (
     <div className="home mt-15 p-12 flex flex-col">
@@ -67,10 +68,12 @@ const Home = ({
       <CreateProfile
         isOpenProfile={isOpenProfile}
         setIsOpenProfile={setIsOpenProfile}
+        connectMetaMask={connectMetaMask}
       />
       <CreatePetisi
         isOpenPetisi={isOpenPetisi}
         setIsOpenPetisi={setIsOpenPetisi}
+        connectMetaMask={connectMetaMask}
       />
     </div>
   );
