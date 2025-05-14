@@ -12,11 +12,15 @@ const Home = ({
   isOpenPetisi,
   setIsOpenPetisi,
   connectMetaMask,
+  profile,
 }) => {
   return (
     <div className="home mt-15 p-12 flex flex-col">
       <nav>
-        <Navbar setIsOpenProfile={setIsOpenProfile} />
+        <Navbar
+          setIsOpenProfile={setIsOpenProfile}
+          connectMetaMask={connectMetaMask}
+        />
       </nav>
       <section className="flex items-center justify-around ">
         <div
@@ -65,11 +69,14 @@ const Home = ({
           <CardVoting />
         </div>
       </section>
+
       <CreateProfile
         isOpenProfile={isOpenProfile}
         setIsOpenProfile={setIsOpenProfile}
         connectMetaMask={connectMetaMask}
+        profile={profile}
       />
+
       <CreatePetisi
         isOpenPetisi={isOpenPetisi}
         setIsOpenPetisi={setIsOpenPetisi}

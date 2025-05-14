@@ -1,8 +1,8 @@
 import { Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router";
 
-const Navbar = ({ setIsOpenProfile, account }) => {
+const Navbar = ({ setIsOpenProfile, account, connectMetaMask }) => {
   return (
     <div className="navbar fixed top-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-200 text-white w-full z-10">
       <div className="navigation flex">
@@ -33,11 +33,7 @@ const Navbar = ({ setIsOpenProfile, account }) => {
         </div>
       ) : (
         <div className="wallet">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setIsOpenProfile(true)}
-          >
+          <Button variant="contained" color="primary" onClick={connectMetaMask}>
             Connet Wallet
           </Button>
         </div>

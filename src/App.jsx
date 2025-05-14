@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BrowserProvider, Contract } from "ethers";
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -15,23 +15,28 @@ const App = () => {
   const [isOpenPetisi, setIsOpenPetisi] = useState(false);
   const [mainContract, setMainContract] = useState(null);
   const [profileContract, setProfileContract] = useState(null);
+  const [shortAddress, setShortAddress] = useState("");
   const [account, setAccount] = useState(null);
-  const { VITE_CONTRACT_PROFILE_URL, VITE_CONTRACT_MAIN_URL } = import.meta.env;
+  const [profile, setProfile] = useState();
+  // get
+  const { VITE_CONTRACT_PROFILE_ADDRESS, VITE_CONTRACT_MAIN_ADDRESS } =
+    import.meta.env;
+
+  // function get profile
+  const getProfile = async () => {
+    try {
+      const profile = await profileContract.getProfile(account);
+      if (!profile) throw new Error("Profile not found");
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      setProfile(null);
+    }
+  };
 
   async function connectMetaMask() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new BrowserProvider(window.ethereum);
     const signer = provider.getSigner();
-    const mainContract = new ethers.Contract(
-      VITE_CONTRACT_MAIN_URL,
-      mainContractABI,
-      signer
-    );
-
-    const profileContract = new ethers.Contract(
-      VITE_CONTRACT_PROFILE_URL,
-      profileContractABI,
-      signer
-    );
+    // connect to wallet
     if (typeof window.ethereum === "undefined") {
       throw new Error("MetaMask is not installed");
     }
@@ -39,10 +44,25 @@ const App = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      return accounts[0];
+      // create main contract
+      const mainContract = new Contract(
+        VITE_CONTRACT_MAIN_ADDRESS,
+        mainContractABI,
+        signer
+      );
+
+      // crate profile contract
+      const profileContract = new Contract(
+        VITE_CONTRACT_PROFILE_ADDRESS,
+        profileContractABI,
+        signer
+      );
+      setAccount(accounts[0]);
+      setMainContract(mainContract);
+      setProfileContract(profileContract);
+      getProfile();
     } catch (error) {
       if (error.code === 4001) {
-        // User rejected request
         throw new Error("User rejected the connection request.");
       } else if (error.message.includes("connect")) {
         throw new Error(
@@ -56,7 +76,13 @@ const App = () => {
       }
     }
   }
-
+  // short address
+  const shortAddressHandler = (address) => {
+    if (!address) return "";
+    const start = address.slice(0, 5);
+    const end = address.slice(-4);
+    setShortAddress(`${start}...${end}`);
+  };
   return (
     <BrowserRouter>
       <Routes>
@@ -69,6 +95,7 @@ const App = () => {
               isOpenPetisi={isOpenPetisi}
               setIsOpenPetisi={setIsOpenPetisi}
               connectMetaMask={connectMetaMask}
+              profile={profile}
             />
           }
         />

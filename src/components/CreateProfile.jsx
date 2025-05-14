@@ -17,6 +17,7 @@ const CreateProfile = ({
   isOpenProfile,
   setIsOpenProfile,
   connectMetaMask,
+  profile,
 }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +67,7 @@ const CreateProfile = ({
   return (
     <div>
       <Modal
-        open={isOpenProfile}
+        open={!isOpenProfile ? (profile === null ? true : false) : false}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
