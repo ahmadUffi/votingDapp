@@ -32,11 +32,7 @@ const Navbar = ({
           </Typography>
           <div className="photo w-[60px] h-[60px] rounded-full bg-red-50 overflow-hidden">
             <img
-              src={
-                profile?.imgProfile
-                  ? profile?.imgProfile
-                  : `https://api.dicebear.com/9.x/pixel-art/svg`
-              }
+              src={profile?.imgProfile ? profile?.imgProfile : ``}
               alt="Profile"
               className="bg-center bg-cover rounded-full"
             />

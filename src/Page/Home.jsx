@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CardVoting from "../components/CardVoting";
 import CreateProfile from "../components/CreateProfile";
 import CreatePetisi from "../components/CreatePetisi";
+import { BrowserProvider, Contract } from "ethers";
+import mainContractABI from "../contract/mainContract.json";
 
 const Home = ({
   isOpenProfile,
@@ -18,9 +20,43 @@ const Home = ({
   mainContract,
   profileContract,
   shortAddress,
-  setShortAddress,
   getProfile,
 }) => {
+  const [allPetisi, setAllPetisi] = useState([]);
+  const { VITE_CONTRACT_MAIN_ADDRESS } = import.meta.env;
+  const provider = new BrowserProvider(window.ethereum);
+  const mainContractGlobal = new Contract(
+    VITE_CONTRACT_MAIN_ADDRESS,
+    mainContractABI,
+    provider
+  );
+
+  const getAllPetisi = async () => {
+    if (!mainContractGlobal) {
+      console.error("Main contract is not initialized");
+      return;
+    }
+    try {
+      const getllPetisi = await mainContractGlobal.gerAllProposal();
+      setAllPetisi(getllPetisi);
+      console.log(getllPetisi);
+    } catch (error) {
+      console.error("Error fetching all petitions:", error);
+    }
+  };
+  const createPetisiHandler = async (e) => {
+    e.preventDefault();
+    if (!account) {
+      alert("Please connect your wallet first");
+      return;
+    }
+    setIsOpenPetisi(true);
+  };
+
+  useEffect(() => {
+    getAllPetisi();
+  }, []);
+
   return (
     <div className="home mt-15 p-12 flex flex-col">
       <nav>
@@ -61,7 +97,7 @@ const Home = ({
         <div className="create">
           <button
             className="bg-blue-500 text-white p-3 rounded-sm cursor-pointer"
-            onClick={() => setIsOpenPetisi(true)}
+            onClick={createPetisiHandler}
           >
             Create Proposal
           </button>
@@ -69,14 +105,13 @@ const Home = ({
       </section>
       <section>
         <div className="card-box flex flex-wrap gap-10 justify-center">
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
-          <CardVoting />
+          {allPetisi.length > 0 ? (
+            allPetisi.map(() => <CardVoting />)
+          ) : (
+            <h1 className=" font-bold opacity-50 text-6xl">
+              No Petisi Created
+            </h1>
+          )}
         </div>
       </section>
 
