@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import Loader from "./Loader";
 import { getImageUrl, uploadImage } from "../utils/supabase";
 
-const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
+const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -38,8 +38,18 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
       e.preventDefault();
       setError(null);
       setIsLoading(true);
-      await uploadImage("petisi", file, title);
-      const petisiImg = await getImageUrl("petisi", title);
+
+      const selecetDate = new Date(expired);
+      const expredDate = Math.floor(selecetDate.getTime() / 1000);
+
+      const upload = await uploadImage("petisi", file, title);
+      if (!upload.success) {
+        console.error(upload.success);
+        alert("File upload failed");
+        return;
+      }
+      const urlImg = getImageUrl("petisi", title);
+      await mainContract.createProposal(title, description, urlImg, expredDate);
     } catch (error) {
       console.error(error);
     } finally {
@@ -69,7 +79,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
           <FormControl className="flex flex-col gap-5">
             <TextField
               type="text"
-              required
+              // required
               label="Title"
               fullWidth
               value={title}
@@ -77,7 +87,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
             />
             <TextField
               type="text"
-              required
+              // required
               label="Description"
               fullWidth
               multiline
@@ -102,7 +112,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi }) => {
             <TextField
               type="file"
               fullWidth
-              required
+              // required
               value={file}
               label="File"
               id="outlined-required"

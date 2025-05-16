@@ -108,9 +108,7 @@ const Home = ({
           {allPetisi.length > 0 ? (
             allPetisi.map(() => <CardVoting />)
           ) : (
-            <h1 className=" font-bold opacity-50 text-6xl">
-              No Petisi Created
-            </h1>
+            <CardVoting />
           )}
         </div>
       </section>
@@ -131,6 +129,12 @@ const Home = ({
         isOpenPetisi={isOpenPetisi}
         setIsOpenPetisi={setIsOpenPetisi}
         connectMetaMask={connectMetaMask}
+        profile={profile}
+        setProfile={setProfile}
+        account={account}
+        mainContract={mainContract}
+        profileContract={profileContract}
+        getProfile={getProfile}
       />
     </div>
   );
