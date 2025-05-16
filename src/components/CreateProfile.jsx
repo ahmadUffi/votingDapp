@@ -18,6 +18,10 @@ const CreateProfile = ({
   setIsOpenProfile,
   connectMetaMask,
   profile,
+  setProfile,
+  profileContract,
+  getProfile,
+  account,
 }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,21 +40,28 @@ const CreateProfile = ({
     borderRadius: "10px",
   };
 
-  const connectWalletHandler = async (e) => {
+  const createProfileHandler = async (e) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
     try {
-      const account = await connectMetaMask();
-      await uploadImage("profileusers", file, username);
-      const profileImg = await getImageUrl("profileusers", username);
-      console.log("Profile image URL:", profileImg);
+      const upload = await uploadImage("profileusers", file, username);
+      console.log(upload);
+      if (!upload.success) {
+        console.error(upload.success);
+        alert("Username already exists");
+        return;
+      }
+      const urlImg = getImageUrl("profileusers", username);
+      console.log(urlImg);
+      await profileContract.setProfile(username, description, urlImg);
+      getProfile(profileContract, account);
     } catch (err) {
-      setError(err.message);
       console.error(err);
+      setError("Failed to create profile");
+      alert("Failed to create profile");
     } finally {
       setIsLoading(false);
-      setIsOpenProfile(false);
     }
   };
 
@@ -62,12 +73,13 @@ const CreateProfile = ({
     setDescription("");
     setFile(null);
     setError(null);
+    setProfile(null);
   };
 
   return (
     <div>
       <Modal
-        open={!isOpenProfile ? (profile === null ? true : false) : false}
+        open={!isOpenProfile ? (profile == "noData" ? true : false) : false}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -75,7 +87,7 @@ const CreateProfile = ({
           <Typography variant="h5" className="mb-10 font-bold underline">
             Create Porfile
           </Typography>
-          <form className="flex flex-col gap-5" onSubmit={connectWalletHandler}>
+          <form className="flex flex-col gap-5" onSubmit={createProfileHandler}>
             <TextField
               onChange={(e) => setUsername(e.target.value)}
               id="outlined-text-input"
@@ -99,7 +111,6 @@ const CreateProfile = ({
               fullWidth
               required
               label="File"
-              value={file}
               id="outlined-required"
               slotProps={{
                 inputLabel: {
@@ -119,7 +130,7 @@ const CreateProfile = ({
               <Button type="submit" variant="contained" className="w-[190px]">
                 {!isLoading ? (
                   <Typography variant="p" className="font-bold">
-                    Connect Wallet
+                    Create Profile
                   </Typography>
                 ) : (
                   <Loader />

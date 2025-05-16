@@ -13,6 +13,13 @@ const Home = ({
   setIsOpenPetisi,
   connectMetaMask,
   profile,
+  setProfile,
+  account,
+  mainContract,
+  profileContract,
+  shortAddress,
+  setShortAddress,
+  getProfile,
 }) => {
   return (
     <div className="home mt-15 p-12 flex flex-col">
@@ -20,6 +27,9 @@ const Home = ({
         <Navbar
           setIsOpenProfile={setIsOpenProfile}
           connectMetaMask={connectMetaMask}
+          shortAddress={shortAddress}
+          profile={profile}
+          account={account}
         />
       </nav>
       <section className="flex items-center justify-around ">
@@ -75,6 +85,11 @@ const Home = ({
         setIsOpenProfile={setIsOpenProfile}
         connectMetaMask={connectMetaMask}
         profile={profile}
+        setProfile={setProfile}
+        account={account}
+        mainContract={mainContract}
+        profileContract={profileContract}
+        getProfile={getProfile}
       />
 
       <CreatePetisi

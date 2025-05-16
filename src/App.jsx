@@ -17,25 +17,32 @@ const App = () => {
   const [profileContract, setProfileContract] = useState(null);
   const [shortAddress, setShortAddress] = useState("");
   const [account, setAccount] = useState(null);
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(null);
   // get
   const { VITE_CONTRACT_PROFILE_ADDRESS, VITE_CONTRACT_MAIN_ADDRESS } =
     import.meta.env;
 
   // function get profile
-  const getProfile = async () => {
+  const getProfile = async (contract, account) => {
+    console.log(account);
+    console.log("masuk");
     try {
-      const profile = await profileContract.getProfile(account);
-      if (!profile) throw new Error("Profile not found");
+      const profile = await contract.getProfile(account);
+      console.log(profile);
+      if (profile) {
+        setProfile(profile);
+      }
     } catch (error) {
-      console.error("Error fetching profile:", error);
-      setProfile(null);
+      if (error.code === "BAD_DATA") {
+        console.error("No profile found for this address");
+      }
+      setProfile("noData");
     }
   };
 
   async function connectMetaMask() {
     const provider = new BrowserProvider(window.ethereum);
-    const signer = provider.getSigner();
+    const signer = await provider.getSigner();
     // connect to wallet
     if (typeof window.ethereum === "undefined") {
       throw new Error("MetaMask is not installed");
@@ -50,6 +57,7 @@ const App = () => {
         mainContractABI,
         signer
       );
+      setMainContract(mainContract);
 
       // crate profile contract
       const profileContract = new Contract(
@@ -57,10 +65,10 @@ const App = () => {
         profileContractABI,
         signer
       );
-      setAccount(accounts[0]);
-      setMainContract(mainContract);
       setProfileContract(profileContract);
-      getProfile();
+      setAccount(accounts[0]);
+      shortAddressHandler(accounts[0]);
+      getProfile(profileContract, accounts[0]);
     } catch (error) {
       if (error.code === 4001) {
         throw new Error("User rejected the connection request.");
@@ -75,6 +83,7 @@ const App = () => {
         );
       }
     }
+    console.log("Account connected:", account);
   }
   // short address
   const shortAddressHandler = (address) => {
@@ -96,6 +105,13 @@ const App = () => {
               setIsOpenPetisi={setIsOpenPetisi}
               connectMetaMask={connectMetaMask}
               profile={profile}
+              setProfile={setProfile}
+              profileContract={profileContract}
+              mainContract={mainContract}
+              account={account}
+              shortAddress={shortAddress}
+              shortAddressHandler={shortAddressHandler}
+              getProfile={getProfile}
             />
           }
         />

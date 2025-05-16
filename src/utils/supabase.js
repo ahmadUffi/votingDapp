@@ -5,10 +5,6 @@ const { VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY } = import.meta.env;
 const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY);
 
 const uploadImage = async (bucket, file, namefile) => {
-  console.log("Uploading image:", file);
-  console.log("File type:", file.type);
-  console.log("File name:", file.name);
-
   try {
     const { data, error } = await supabase.storage
       .from(`${bucket}`)
@@ -16,14 +12,17 @@ const uploadImage = async (bucket, file, namefile) => {
         cacheControl: "3600",
         upsert: false,
       });
-
     if (error) {
-      console.error("Upload error:", error.message);
-    } else {
-      console.log("Upload success:", data);
+      if (error.statusCode === "409") {
+        console.log("File already exists.");
+      }
+      return { success: false, error: error.message || "Upload error" };
     }
+
+    return { success: true, path: data.path };
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.log("masuk ke error");
+    return { success: false, error: error.message || "unknown error" };
   }
 };
 

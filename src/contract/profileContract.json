@@ -2,238 +2,17 @@
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_imgUrl",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_deadline",
-        "type": "uint256"
-      }
-    ],
-    "name": "createProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
-        "name": "_profileContract",
+        "name": "_user",
         "type": "address"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableInvalidOwner",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableUnauthorizedAccount",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "title",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "votes",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "_imgUrl",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_deadline",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "author",
-        "type": "address"
-      }
-    ],
-    "name": "proposalCreated",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "vote",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "_isVoted",
-        "type": "bool"
-      }
-    ],
-    "name": "voteSuccesed",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "gerAllProposal",
+    "name": "getImgProfile",
     "outputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "title",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "votes",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "imgUrl",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "author",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "usernameAuthor",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "imgAuthore",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "created",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct Petisi.Proposal[]",
+        "internalType": "string",
         "name": "",
-        "type": "tuple[]"
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -247,64 +26,34 @@
         "type": "address"
       }
     ],
-    "name": "getMyProposal",
+    "name": "getProfile",
     "outputs": [
       {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
             "internalType": "string",
-            "name": "title",
+            "name": "username",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "votes",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "imgUrl",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "author",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "usernameAuthor",
+            "name": "bio",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "imgAuthore",
+            "name": "imgProfile",
             "type": "string"
           },
           {
-            "internalType": "uint256",
-            "name": "created",
-            "type": "uint256"
+            "internalType": "bool",
+            "name": "isRegistered",
+            "type": "bool"
           }
         ],
-        "internalType": "struct Petisi.Proposal[]",
+        "internalType": "struct PetisiProfile.UserProfile",
         "name": "",
-        "type": "tuple[]"
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -313,18 +62,13 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
       }
     ],
-    "name": "getProposal",
+    "name": "getUsernameProfile",
     "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
       {
         "internalType": "string",
         "name": "",
@@ -342,11 +86,26 @@
         "type": "address"
       }
     ],
-    "name": "hasvoted",
+    "name": "profile",
     "outputs": [
       {
+        "internalType": "string",
+        "name": "username",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "bio",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "imgProfile",
+        "type": "string"
+      },
+      {
         "internalType": "bool",
-        "name": "",
+        "name": "isRegistered",
         "type": "bool"
       }
     ],
@@ -356,211 +115,24 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "string",
+        "name": "_username",
+        "type": "string"
       },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "_bio",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_imgProfile",
+        "type": "string"
       }
     ],
-    "name": "myProposal",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "votes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "imgUrl",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "author",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "usernameAuthor",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "imgAuthore",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "created",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "proposalList",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "votes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "imgUrl",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "author",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "usernameAuthor",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "imgAuthore",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "created",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "proposals",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "votes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "imgUrl",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "author",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "usernameAuthor",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "imgAuthore",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "created",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "setProfile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
