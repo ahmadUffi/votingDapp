@@ -24,11 +24,8 @@ const App = () => {
 
   // function get profile
   const getProfile = async (contract, account) => {
-    console.log(account);
-    console.log("masuk");
     try {
       const profile = await contract.getProfile(account);
-      console.log(profile);
       if (profile) {
         setProfile(profile);
       }
@@ -83,7 +80,6 @@ const App = () => {
         );
       }
     }
-    console.log("Account connected:", account);
   }
   // short address
   const shortAddressHandler = (address) => {

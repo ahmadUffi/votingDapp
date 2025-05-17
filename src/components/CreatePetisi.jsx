@@ -14,7 +14,12 @@ import React, { useState } from "react";
 import Loader from "./Loader";
 import { getImageUrl, uploadImage } from "../utils/supabase";
 
-const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
+const CreatePetisi = ({
+  isOpenPetisi,
+  setIsOpenPetisi,
+  mainContract,
+  getAllPetisi,
+}) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -49,7 +54,14 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
         return;
       }
       const urlImg = getImageUrl("petisi", title);
-      await mainContract.createProposal(title, description, urlImg, expredDate);
+      const tx = await mainContract.createProposal(
+        title,
+        description,
+        urlImg,
+        expredDate
+      );
+      await tx.wait();
+      alert("Petisi created successfully");
     } catch (error) {
       console.error(error);
     } finally {
@@ -60,6 +72,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
       setExpired("");
       setFile("");
       setError(null);
+      getAllPetisi();
     }
   };
 
@@ -79,7 +92,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
           <FormControl className="flex flex-col gap-5">
             <TextField
               type="text"
-              // required
+              required
               label="Title"
               fullWidth
               value={title}
@@ -87,7 +100,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
             />
             <TextField
               type="text"
-              // required
+              required
               label="Description"
               fullWidth
               multiline
@@ -112,8 +125,7 @@ const CreatePetisi = ({ isOpenPetisi, setIsOpenPetisi, mainContract }) => {
             <TextField
               type="file"
               fullWidth
-              // required
-              value={file}
+              required
               label="File"
               id="outlined-required"
               onChange={(e) => setFile(e.target.files[0])}

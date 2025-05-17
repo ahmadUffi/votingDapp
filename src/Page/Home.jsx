@@ -22,6 +22,7 @@ const Home = ({
   shortAddress,
   getProfile,
 }) => {
+  console.log(mainContract);
   const [allPetisi, setAllPetisi] = useState([]);
   const { VITE_CONTRACT_MAIN_ADDRESS } = import.meta.env;
   const provider = new BrowserProvider(window.ethereum);
@@ -99,16 +100,35 @@ const Home = ({
             className="bg-blue-500 text-white p-3 rounded-sm cursor-pointer"
             onClick={createPetisiHandler}
           >
-            Create Proposal
+            Create Petisi
           </button>
         </div>
       </section>
       <section>
         <div className="card-box flex flex-wrap gap-10 justify-center">
           {allPetisi.length > 0 ? (
-            allPetisi.map(() => <CardVoting />)
+            allPetisi.map((item, index) => (
+              <CardVoting
+                key={index}
+                profile={item.imgAuthore}
+                username={item.usernameAuthor}
+                description={item.description}
+                title={item.title}
+                signatures={item.votes}
+                id={item.id}
+                expired={item.deadline}
+                created={item.created}
+                imgUrl={item.imgUrl}
+                mainContract={mainContract}
+                account={account}
+              />
+            ))
           ) : (
-            <CardVoting />
+            <div className="w-full h-[50vh] flex justify-center items-center">
+              <h1 className="text-2xl font-bold text-gray-500">
+                No Petitions Found
+              </h1>
+            </div>
           )}
         </div>
       </section>
@@ -135,6 +155,7 @@ const Home = ({
         mainContract={mainContract}
         profileContract={profileContract}
         getProfile={getProfile}
+        getAllPetisi={getAllPetisi}
       />
     </div>
   );
