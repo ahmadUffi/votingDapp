@@ -22,6 +22,7 @@ const CreateProfile = ({
   profileContract,
   getProfile,
   account,
+  setAccount,
 }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +55,13 @@ const CreateProfile = ({
       }
       const urlImg = getImageUrl("profileusers", username);
       console.log(urlImg);
-      await profileContract.setProfile(username, description, urlImg);
+      const tx = await profileContract.setProfile(
+        username,
+        description,
+        urlImg
+      );
+      tx.wait();
+      alert("Profile created successfully");
       getProfile(profileContract, account);
     } catch (err) {
       console.error(err);
@@ -67,6 +74,7 @@ const CreateProfile = ({
 
   const cencelHandler = () => {
     setIsOpenProfile(false);
+    setAccount(null);
     setError(null);
     setIsLoading(false);
     setUsername("");
@@ -136,7 +144,12 @@ const CreateProfile = ({
                   <Loader />
                 )}
               </Button>
-              <Button color="error" variant="contained" onClick={cencelHandler}>
+              <Button
+                color="error"
+                variant="contained"
+                onClick={cencelHandler}
+                disabled={isLoading}
+              >
                 <Typography variant="p" className="font-bold">
                   Cancel
                 </Typography>

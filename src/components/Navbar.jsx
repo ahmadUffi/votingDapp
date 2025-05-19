@@ -31,8 +31,8 @@ const Navbar = ({
           </Typography>
           <div className="photo w-[60px] hz-[60px] rounded-full bg-red-50 overflow-hidden">
             <img
-              src={profile?.imgProfile ? profile?.imgProfile : ``}
-              alt="Profile"
+              src={profile?.imgProfile ? profile?.imgProfile : null}
+              alt={profile?.username}
               className="bg-center bg-cover rounded-full"
             />
           </div>

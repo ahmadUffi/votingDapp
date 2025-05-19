@@ -21,8 +21,8 @@ const Home = ({
   profileContract,
   shortAddress,
   getProfile,
+  setAccount,
 }) => {
-  console.log(mainContract);
   const [allPetisi, setAllPetisi] = useState([]);
   const { VITE_CONTRACT_MAIN_ADDRESS } = import.meta.env;
   const provider = new BrowserProvider(window.ethereum);
@@ -40,7 +40,6 @@ const Home = ({
     try {
       const getllPetisi = await mainContractGlobal.gerAllProposal();
       setAllPetisi(getllPetisi);
-      console.log(getllPetisi);
     } catch (error) {
       console.error("Error fetching all petitions:", error);
     }
@@ -67,6 +66,7 @@ const Home = ({
           shortAddress={shortAddress}
           profile={profile}
           account={account}
+          setAccount={setAccount}
         />
       </nav>
       <section className="flex items-center justify-around ">
@@ -121,6 +121,7 @@ const Home = ({
                 imgUrl={item.imgUrl}
                 mainContract={mainContract}
                 account={account}
+                getAllPetisi={getAllPetisi}
               />
             ))
           ) : (
@@ -143,6 +144,7 @@ const Home = ({
         mainContract={mainContract}
         profileContract={profileContract}
         getProfile={getProfile}
+        setAccount={setAccount}
       />
 
       <CreatePetisi

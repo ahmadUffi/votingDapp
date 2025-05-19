@@ -24,6 +24,7 @@ const CardVoting = ({
   created,
   mainContract,
   account,
+  getAllPetisi,
 }) => {
   const sortString = (field, maxLength) => {
     return field.split(" ").slice(0, maxLength).join(" ") + "...";
@@ -49,10 +50,12 @@ const CardVoting = ({
       return;
     }
     try {
-      await mainContract.vote(id);
+      const tx = await mainContract.vote(id);
+      tx.wait();
       alert("Signature Success");
+      getAllPetisi();
     } catch (error) {
-      alert(error.message);
+      alert(error.reason);
     }
   };
 

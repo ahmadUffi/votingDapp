@@ -26,8 +26,10 @@ const App = () => {
   const getProfile = async (contract, account) => {
     try {
       const profile = await contract.getProfile(account);
-      if (profile) {
+
+      if (profile.isRegistered) {
         setProfile(profile);
+        return;
       }
     } catch (error) {
       if (error.code === "BAD_DATA") {
@@ -35,6 +37,7 @@ const App = () => {
       }
       setProfile("noData");
     }
+    console.log("profile", profile);
   };
 
   async function connectMetaMask() {
@@ -62,6 +65,9 @@ const App = () => {
         profileContractABI,
         signer
       );
+
+      const getusername = await profileContract.getProfile(accounts[0]);
+      console.log("getusername", getusername);
       setProfileContract(profileContract);
       setAccount(accounts[0]);
       shortAddressHandler(accounts[0]);
@@ -108,6 +114,7 @@ const App = () => {
               shortAddress={shortAddress}
               shortAddressHandler={shortAddressHandler}
               getProfile={getProfile}
+              setAccount={setAccount}
             />
           }
         />
